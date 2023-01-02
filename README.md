@@ -1,4 +1,15 @@
-def handler():                                                                                                       
+def insecure_ssl_pushgateway_handler(url, method, timeout, headers, data):                                               
+    """Defines a handler which manages unverified SSL connections.                                                       
+                                                                                                                         
+    NOTE: This is used because client Python code will be addressing HTTPS endpoints that use TLS originating from       
+          PathAI's CA, which is not normally verifiable.                                                                 
+                                                                                                                         
+    Arguments are required by the handler interface in prometheus_client.push_to_gateway.                                
+                                                                                                                         
+    See: https://github.com/prometheus/client_python/blob/master/prometheus_client/exposition.py#L259                    
+    """                                                                                                                  
+                                                                                                                         
+    def handler():                                                                                                       
         try:                                                                                                             
             # Disable SSL verification for the Pushgateway.                                                            
             ssl_context = ssl.create_default_context()                                                                   
